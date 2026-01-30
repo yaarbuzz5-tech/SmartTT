@@ -8,36 +8,44 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f5f5f5;
   color: #333;
+  font-size: clamp(14px, 2.5vw, 18px);
+  line-height: 1.6;
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: clamp(10px, 3vw, 20px);
+  width: 100%;
 }
 
 /* Header and Navigation */
 header {
   background-color: #2c3e50;
   color: white;
-  padding: 20px 0;
+  padding: clamp(10px, 2vw, 20px) 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 20px;
+  gap: clamp(10px, 2vw, 20px);
   flex-wrap: wrap;
 }
 
 nav a {
   color: white;
   text-decoration: none;
-  padding: 10px 15px;
+  padding: clamp(6px, 1.5vw, 15px) clamp(8px, 2vw, 15px);
   border-radius: 4px;
   transition: background-color 0.3s;
+  font-size: clamp(0.85rem, 1.5vw, 1rem);
+  white-space: nowrap;
 }
 
 nav a:hover {
@@ -52,15 +60,16 @@ nav a.active {
 .card {
   background: white;
   border-radius: 8px;
-  padding: 20px;
+  padding: clamp(10px, 2vw, 20px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
+  margin-bottom: clamp(10px, 2vw, 20px);
+  overflow: hidden;
 }
 
 .card-header {
-  font-size: 1.5rem;
+  font-size: clamp(1.2rem, 2.5vw, 1.5rem);
   font-weight: bold;
-  margin-bottom: 15px;
+  margin-bottom: clamp(8px, 2vw, 15px);
   color: #2c3e50;
 }
 
@@ -68,7 +77,7 @@ nav a.active {
 form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: clamp(8px, 2vw, 15px);
 }
 
 .form-group {
@@ -78,17 +87,18 @@ form {
 
 label {
   font-weight: 500;
-  margin-bottom: 5px;
+  margin-bottom: clamp(3px, 1vw, 5px);
   color: #2c3e50;
+  font-size: clamp(0.85rem, 1.5vw, 1rem);
 }
 
 input,
 select,
 textarea {
-  padding: 10px;
+  padding: clamp(6px, 1.5vw, 10px);
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
   font-family: inherit;
 }
 
@@ -107,13 +117,23 @@ textarea {
 
 /* Buttons */
 button {
-  padding: 10px 20px;
+  padding: clamp(6px, 1.5vw, 10px) clamp(12px, 2vw, 20px);
   border: none;
   border-radius: 4px;
-  font-size: 1rem;
+  font-size: clamp(0.85rem, 1.5vw, 1rem);
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.1s;
+  min-height: 44px;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .btn-primary {
@@ -156,19 +176,21 @@ button {
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 15px;
+  margin-top: clamp(10px, 2vw, 15px);
+  font-size: clamp(0.8rem, 1.5vw, 1rem);
+  overflow-x: auto;
 }
 
 th {
   background-color: #2c3e50;
   color: white;
-  padding: 12px;
+  padding: clamp(8px, 1.5vw, 12px);
   text-align: left;
   font-weight: 600;
 }
 
 td {
-  padding: 12px;
+  padding: clamp(8px, 1.5vw, 12px);
   border-bottom: 1px solid #ddd;
 }
 
@@ -277,28 +299,235 @@ tr:hover {
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
-  .timetable-grid {
-    grid-template-columns: 1fr;
-  }
-
-  nav {
-    flex-direction: column;
-    align-items: flex-start;
+@media (max-width: 1024px) {
+  .container {
+    padding: 15px;
   }
 
   .grid-2,
   .grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .timetable-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  nav a {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+
+  h1 {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    padding: 15px 0;
+  }
+
+  .container {
+    padding: 10px;
+  }
+
+  nav {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  nav a {
+    display: block;
+    padding: 10px;
+    text-align: center;
+    background-color: #34495e;
+  }
+
+  nav a:hover,
+  nav a.active {
+    background-color: #3498db;
+  }
+
+  .flex-between {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .flex {
+    flex-wrap: wrap;
+  }
+
+  .card {
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+
+  .card-header {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+
+  .grid,
+  .grid-2,
+  .grid-3 {
     grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .timetable-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .timetable-slot {
+    padding: 10px;
+    min-height: 60px;
+    font-size: 0.9rem;
   }
 
   table {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
   }
 
   th,
   td {
     padding: 8px;
+  }
+
+  button {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    width: 100%;
+  }
+
+  form {
+    gap: 10px;
+  }
+
+  input,
+  select,
+  textarea {
+    padding: 8px;
+    font-size: 1rem;
+  }
+
+  .alert {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  h1 {
+    font-size: 1.1rem;
+  }
+
+  h2 {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 8px;
+  }
+
+  header {
+    padding: 10px 0;
+  }
+
+  nav {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  nav a {
+    padding: 8px;
+    font-size: 0.85rem;
+  }
+
+  .card {
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .card-header {
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+
+  form {
+    gap: 8px;
+  }
+
+  button {
+    padding: 6px 10px;
+    font-size: 0.85rem;
+  }
+
+  input,
+  select,
+  textarea {
+    padding: 6px;
+    font-size: 16px;
+  }
+
+  table {
+    font-size: 0.75rem;
+  }
+
+  th,
+  td {
+    padding: 6px;
+  }
+
+  .timetable-slot {
+    padding: 8px;
+    min-height: 50px;
+    font-size: 0.8rem;
+  }
+
+  .gap-20 {
+    gap: 10px;
+  }
+
+  .mt-20 {
+    margin-top: 10px;
+  }
+
+  .mb-20 {
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-size: 1rem;
+  }
+
+  h2 {
+    font-size: 0.9rem;
+  }
+
+  .timetable-grid {
+    gap: 5px;
+  }
+
+  nav .flex {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .flex-between {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .alert {
+    padding: 8px;
+    font-size: 0.8rem;
   }
 }
 

@@ -7,6 +7,7 @@ import './styles/index.css';
 
 function App() {
   const [userRole, setUserRole] = useState('admin');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <Router>
@@ -15,17 +16,23 @@ function App() {
           <div className="container">
             <nav className="flex-between">
               <div className="flex gap-20">
-                <h1 style={{ fontSize: '1.5rem' }}>SmartTT - Intelligent Timetable Generator</h1>
+                <h1 style={{ fontSize: 'clamp(1rem, 3vw, 1.5rem)', whiteSpace: 'nowrap' }}>SmartTT</h1>
               </div>
-              <div className="flex gap-20">
-                <Link to="/admin" className={userRole === 'admin' ? 'active' : ''}>
-                  Admin Panel
+              <div className="nav-links" style={{ 
+                display: mobileMenuOpen ? 'flex' : 'none',
+                flexDirection: 'column',
+                gap: '10px',
+                width: '100%',
+                marginTop: '10px'
+              }}>
+                <Link to="/admin" className={userRole === 'admin' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>
+                  Admin
                 </Link>
-                <Link to="/professor" className={userRole === 'professor' ? 'active' : ''}>
-                  Professor Panel
+                <Link to="/professor" className={userRole === 'professor' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>
+                  Professor
                 </Link>
-                <Link to="/student" className={userRole === 'student' ? 'active' : ''}>
-                  Student Panel
+                <Link to="/student" className={userRole === 'student' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>
+                  Student
                 </Link>
               </div>
             </nav>
@@ -41,7 +48,13 @@ function App() {
           </Routes>
         </main>
 
-        <footer style={{ textAlign: 'center', padding: '20px', marginTop: '40px', borderTop: '1px solid #ddd' }}>
+        <footer style={{ 
+          textAlign: 'center', 
+          padding: 'clamp(10px, 3vw, 20px)', 
+          marginTop: '40px', 
+          borderTop: '1px solid #ddd',
+          fontSize: 'clamp(0.8rem, 2vw, 1rem)'
+        }}>
           <p>&copy; 2026 SmartTT - Intelligent Timetable Generation System</p>
         </footer>
       </div>
