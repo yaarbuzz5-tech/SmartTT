@@ -32,6 +32,7 @@ exports.getAllProfessors = async (req, res) => {
     const result = await pool.query(query);
     res.json({ success: true, data: result.rows });
   } catch (error) {
+    console.error('Error fetching professors:', error);
     res.status(500).json({ error: error.message });
   }
 };
@@ -113,6 +114,7 @@ exports.getAllSubjects = async (req, res) => {
     const result = await pool.query(query);
     res.json({ success: true, data: result.rows });
   } catch (error) {
+    console.error('Error fetching subjects:', error);
     res.status(500).json({ error: error.message });
   }
 };
@@ -328,6 +330,7 @@ exports.getAllBranches = async (req, res) => {
     const result = await pool.query(query);
     res.json({ success: true, data: result.rows });
   } catch (error) {
+    console.error('Error fetching branches:', error);
     res.status(500).json({ error: error.message });
   }
 };
