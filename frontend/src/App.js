@@ -82,5 +82,3 @@ export default function AppWithRouter() {
     </Router>
   );
 }
-
-export default App;
