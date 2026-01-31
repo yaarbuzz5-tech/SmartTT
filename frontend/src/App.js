@@ -1,63 +1,84 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import AdminPanel from './pages/AdminPanel';
 import ProfessorPanel from './pages/ProfessorPanel';
 import StudentPanel from './pages/StudentPanel';
 import './styles/index.css';
 
 function App() {
-  const [userRole, setUserRole] = useState('admin');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
+
+  const isActive = (path) => location.pathname === path;
 
   return (
-    <Router>
-      <div className="App">
-        <header>
-          <div className="container">
-            <nav className="flex-between">
-              <div className="flex gap-20">
-                <h1 style={{ fontSize: 'clamp(1rem, 3vw, 1.5rem)', whiteSpace: 'nowrap' }}>SmartTT</h1>
-              </div>
-              <div className="nav-links" style={{ 
-                display: mobileMenuOpen ? 'flex' : 'none',
-                flexDirection: 'column',
-                gap: '10px',
-                width: '100%',
-                marginTop: '10px'
-              }}>
-                <Link to="/admin" className={userRole === 'admin' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>
-                  Admin
-                </Link>
-                <Link to="/professor" className={userRole === 'professor' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>
-                  Professor
-                </Link>
-                <Link to="/student" className={userRole === 'student' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>
-                  Student
-                </Link>
-              </div>
-            </nav>
-          </div>
-        </header>
+    <div className="App">
+      <header>
+        <div className="container">
+          <nav className="nav-main">
+            <div className="nav-brand">
+              <h1>🎓 SmartTT</h1>
+              <p className="subtitle">Intelligent Timetable System</p>
+            </div>
+            
+            <div className={`nav-links ${mobileMenuOpen ? 'open' : ''}`}>
+              <Link 
+                to="/admin" 
+                className={`nav-link ${isActive('/admin') || isActive('/') ? 'active' : ''}`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                📊 Admin Panel
+              </Link>
+              <Link 
+                to="/professor" 
+                className={`nav-link ${isActive('/professor') ? 'active' : ''}`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                👨‍🏫 Professor Panel
+              </Link>
+              <Link 
+                to="/student" 
+                className={`nav-link ${isActive('/student') ? 'active' : ''}`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                👨‍🎓 Student Panel
+              </Link>
+            </div>
 
-        <main className="container">
-          <Routes>
-            <Route path="/admin" element={<AdminPanel setUserRole={() => setUserRole('admin')} />} />
-            <Route path="/professor" element={<ProfessorPanel setUserRole={() => setUserRole('professor')} />} />
-            <Route path="/student" element={<StudentPanel setUserRole={() => setUserRole('student')} />} />
-            <Route path="/" element={<AdminPanel setUserRole={() => setUserRole('admin')} />} />
-          </Routes>
-        </main>
+            <button 
+              className="mobile-menu-toggle"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              ☰
+            </button>
+          </nav>
+        </div>
+      </header>
 
-        <footer style={{ 
-          textAlign: 'center', 
-          padding: 'clamp(10px, 3vw, 20px)', 
-          marginTop: '40px', 
-          borderTop: '1px solid #ddd',
-          fontSize: 'clamp(0.8rem, 2vw, 1rem)'
-        }}>
+      <main className="container">
+        <Routes>
+          <Route path="/admin" element={<AdminPanel />} />
+          <Route path="/professor" element={<ProfessorPanel />} />
+          <Route path="/student" element={<StudentPanel />} />
+          <Route path="/" element={<AdminPanel />} />
+        </Routes>
+      </main>
+
+      <footer>
+        <div className="container">
           <p>&copy; 2026 SmartTT - Intelligent Timetable Generation System</p>
-        </footer>
-      </div>
+          <p className="footer-info">All panels ready for testing and demonstration</p>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+export default function AppWithRouter() {
+  return (
+    <Router>
+      <App />
     </Router>
   );
 }
